@@ -22,6 +22,18 @@ def decimal_a_binario(num_dec):
             print()
             break
 
+# Binario a Decimal
+
+
+def binario_a_decimal(num_bin):
+    """ Función para la conversión de Binario a Decimal """
+    resultado = 0
+    for digito in str(num_bin):
+        resultado = (resultado * 2) + int(digito)
+        print(f"{resultado}")
+    print("Se acabo la conversión")
+    print(f"El resultado es: {resultado}")
+    return resultado
 
 # Menú Principal
 
@@ -53,6 +65,12 @@ def menu_principal():
                     numero_decimal = int(input("Ingrese cualquier número de base decimal: "))
                     print()
                     decimal_a_binario(numero_decimal)
+                    continue
+
+                if tipo_conversion == "2":
+                    numero_binario = int(input("Ingrese cualquier número de base binaria: "))
+                    print()
+                    binario_a_decimal(numero_binario)
                     continue
 
 
