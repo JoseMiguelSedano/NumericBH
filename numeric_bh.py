@@ -71,6 +71,31 @@ def decimal_a_hexadecimal(num_dec):
             print()
             break
 
+# Hexadecimal a Decimal
+
+
+def hexadecimal_a_decimal(num_hexa):
+    """ Función para la conversión de Hexadecimal a Decimal """
+    letras = {"A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15}
+    resultado = 0
+    for digito in str(num_hexa).upper():
+        if digito == "A":
+            digito = letras["A"]
+        elif digito == "B":
+            digito = letras["B"]
+        elif digito == "C":
+            digito = letras["C"]
+        elif digito == "D":
+            digito = letras["D"]
+        elif digito == "E":
+            digito = letras["E"]
+        elif digito == "F":
+            digito = letras["F"]
+        resultado = (resultado * 16) + int(digito)
+        print(f"{resultado}")
+    print("Se acabo la conversión")
+    print(f"El resultado es: {resultado}")
+    return resultado
 
 # Menú Principal
 
@@ -115,6 +140,16 @@ def menu_principal():
                     print()
                     decimal_a_hexadecimal(numero_decimal)
                     continue
+
+                if tipo_conversion == "4":
+                    numero_hexadecimal = str(input("Ingrese cualquier número de base hexadecimal: "))
+                    print()
+                    hexadecimal_a_decimal(numero_hexadecimal)
+                    continue
+
+                if tipo_conversion == "5":
+                    print("Volviendo al menú principal...")
+                    break
 
 
 menu_principal()
