@@ -1,5 +1,44 @@
 """ Numeric BH: Conversión de bases numéricas """
 
+# Registro de usuario
+
+usuarios_registrados = []
+
+
+def registro_usuario():
+    """ Función para el registro de usuario """
+    print()
+    print("<<< MENU DE REGISTRO >>")
+    correo_usuario = input("Ingrese un correo: ")
+    contrasenha_usuario = input("Ingrese una contraseña: ")
+    nombre_usuario = input("Ingrese el nombre que desea para su usuario: ")
+    usuario = {
+        "nombre": nombre_usuario,
+        "correo": correo_usuario,
+        "contraseña": contrasenha_usuario
+    }
+    usuarios_registrados.append(usuario)
+    print("Registro completado exitosamente!")
+    print(f"Nuevo usuario registrado: {usuario['nombre']}")
+    return usuario
+
+# Inicio de sesión de usuario
+
+
+def inicio_sesion_usuario():
+    """ Función para el inicio de la sesión del usuario """
+    print()
+    print("<<< MENU DE INICIO DE SESIÓN >>")
+    correo_usuario = input("Ingrese su correo: ")
+    contrasenha_usuario = input("Ingrese su contraseña: ")
+
+    for usuario in usuarios_registrados:
+        if usuario["correo"] == correo_usuario and usuario["contraseña"] == contrasenha_usuario:
+            print(f"Bienvenido, {usuario['nombre']}")
+            return usuario
+
+    print("Error: Correo o contraseña incorrectos")
+
 # Decimal a Binario
 
 
@@ -106,13 +145,23 @@ def menu_principal():
         print()
         print("<<< NUMERIC BH >>>")
         print("Bienvenido al sistema de Numeric BH")
-        print("1. Conversión de bases numéricas")
-        print("2. Ver historial")
-        print("3. Salir")
+        print("1. Registrarse o Iniciar sesión")
+        print("2. Conversión de bases numéricas")
+        print("3. Ver historial")
+        print("4. Salir")
 
         opcion = input("Ingrese una opción: ")
 
         if opcion == "1":
+            decision = input("¿Desea registrarse(R) o iniciar sesión(I)?: ").upper()
+            if decision == "R":
+                registro_usuario()
+                continue
+            if decision == "I":
+                inicio_sesion_usuario()
+                continue
+
+        if opcion == "2":
             while True:
                 print()
                 print("Conversión de bases numéricas")
@@ -150,6 +199,15 @@ def menu_principal():
                 if tipo_conversion == "5":
                     print("Volviendo al menú principal...")
                     break
+
+        if opcion == "2":
+            return
+
+        if opcion == "3":
+            print("Muchas gracias por usar Numeric BH :D")
+            print("¡Hasta pronto!")
+            print("Saliendo del sistema...")
+            break
 
 
 menu_principal()
