@@ -1,43 +1,8 @@
 """ Numeric BH: Conversión de bases numéricas """
 
-# Registro de usuario
+from historial_db import guardar_conversion
+from historial_db import obtener_historial
 
-usuarios_registrados = []
-
-
-def registro_usuario():
-    """ Función para el registro de usuario """
-    print()
-    print("<<< MENU DE REGISTRO >>")
-    correo_usuario = input("Ingrese un correo: ")
-    contrasenha_usuario = input("Ingrese una contraseña: ")
-    nombre_usuario = input("Ingrese el nombre que desea para su usuario: ")
-    usuario = {
-        "nombre": nombre_usuario,
-        "correo": correo_usuario,
-        "contraseña": contrasenha_usuario
-    }
-    usuarios_registrados.append(usuario)
-    print("Registro completado exitosamente!")
-    print(f"Nuevo usuario registrado: {usuario['nombre']}")
-    return usuario
-
-# Inicio de sesión de usuario
-
-
-def inicio_sesion_usuario():
-    """ Función para el inicio de la sesión del usuario """
-    print()
-    print("<<< MENU DE INICIO DE SESIÓN >>")
-    correo_usuario = input("Ingrese su correo: ")
-    contrasenha_usuario = input("Ingrese su contraseña: ")
-
-    for usuario in usuarios_registrados:
-        if usuario["correo"] == correo_usuario and usuario["contraseña"] == contrasenha_usuario:
-            print(f"Bienvenido, {usuario['nombre']}")
-            return usuario
-
-    print("Error: Correo o contraseña incorrectos")
 
 # Decimal a Binario
 
@@ -56,10 +21,12 @@ def decimal_a_binario(num_dec):
             residuos.append(residuo)
             num_dec = cociente
         else:
+            resultado = "".join([str(residuo) for residuo in residuos[::-1]])
             print("Se acabo la conversión")
-            print(f"El resultado es: {residuos[::-1]}")
+            print(f"El resultado es: {resultado}")
             print()
             break
+    return resultado
 
 # Binario a Decimal
 
@@ -105,10 +72,12 @@ def decimal_a_hexadecimal(num_dec):
             residuos.append(residuo)
             num_dec = cociente
         else:
+            resultado = "".join([str(residuo) for residuo in residuos[::-1]])
             print("Se acabo la conversión")
-            print(f"El resultado es: {residuos[::-1]}")
+            print(f"El resultado es: {resultado}")
             print()
             break
+    return resultado
 
 # Hexadecimal a Decimal
 
@@ -145,23 +114,13 @@ def menu_principal():
         print()
         print("<<< NUMERIC BH >>>")
         print("Bienvenido al sistema de Numeric BH")
-        print("1. Registrarse o Iniciar sesión")
-        print("2. Conversión de bases numéricas")
-        print("3. Ver historial")
-        print("4. Salir")
+        print("1. Conversión de bases numéricas")
+        print("2. Ver historial")
+        print("3. Salir")
 
         opcion = input("Ingrese una opción: ")
 
         if opcion == "1":
-            decision = input("¿Desea registrarse(R) o iniciar sesión(I)?: ").upper()
-            if decision == "R":
-                registro_usuario()
-                continue
-            if decision == "I":
-                inicio_sesion_usuario()
-                continue
-
-        if opcion == "2":
             while True:
                 print()
                 print("Conversión de bases numéricas")
@@ -173,35 +132,45 @@ def menu_principal():
                 tipo_conversion = input("Ingrese el tipo de conversión que requiere: ")
 
                 if tipo_conversion == "1":
-                    numero_decimal = int(input("Ingrese cualquier número de base decimal: "))
+                    tipo = "Decimal a Binario"
+                    numero = int(input("Ingrese cualquier número de base decimal: "))
                     print()
-                    decimal_a_binario(numero_decimal)
-                    continue
+                    resultado = decimal_a_binario(numero)
 
-                if tipo_conversion == "2":
-                    numero_binario = int(input("Ingrese cualquier número de base binaria: "))
+                elif tipo_conversion == "2":
+                    tipo = "Binario a Decimal"
+                    numero = int(input("Ingrese cualquier número de base binaria: "))
                     print()
-                    binario_a_decimal(numero_binario)
-                    continue
+                    resultado = binario_a_decimal(numero)
 
-                if tipo_conversion == "3":
-                    numero_decimal = int(input("Ingrese cualquier número de base decimal: "))
+                elif tipo_conversion == "3":
+                    tipo = "Decimal a Hexadecimal"
+                    numero = int(input("Ingrese cualquier número de base decimal: "))
                     print()
-                    decimal_a_hexadecimal(numero_decimal)
-                    continue
+                    resultado = decimal_a_hexadecimal(numero)
 
-                if tipo_conversion == "4":
-                    numero_hexadecimal = str(input("Ingrese cualquier número de base hexadecimal: "))
+                elif tipo_conversion == "4":
+                    tipo = "Hexadecimal a Decimal"
+                    numero = str(input("Ingrese cualquier número de base hexadecimal: "))
                     print()
-                    hexadecimal_a_decimal(numero_hexadecimal)
-                    continue
+                    resultado = hexadecimal_a_decimal(numero)
 
-                if tipo_conversion == "5":
+                elif tipo_conversion == "5":
                     print("Volviendo al menú principal...")
                     break
 
+                else:
+                    print("Opción inválida. Intente nuevamente")
+                    continue
+
+                if tipo_conversion in ["1", "2", "3", "4"]:
+                    guardar_conversion(tipo, str(numero), str(resultado))
+
         if opcion == "2":
-            return
+            registros = obtener_historial()
+            for registro in registros:
+                print(f"{registro[0]} | {registro[1]} | {registro[2]} | {registro[3]}")
+            continue
 
         if opcion == "3":
             print("Muchas gracias por usar Numeric BH :D")
