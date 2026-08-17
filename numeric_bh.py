@@ -1,7 +1,7 @@
-""" Numeric BH: Conversión de bases numéricas """
+""" Numeric BH: Conversión de bases numéricas: Binario y Hexadecimal """
 
-from historial_db import guardar_conversion
-from historial_db import obtener_historial
+from conexion import guardar_conversion
+from conexion import obtener_historial
 
 
 # Decimal a Binario
@@ -166,17 +166,21 @@ def menu_principal():
                 if tipo_conversion in ["1", "2", "3", "4"]:
                     guardar_conversion(tipo, str(numero), str(resultado))
 
-        if opcion == "2":
+        elif opcion == "2":
             registros = obtener_historial()
             for registro in registros:
                 print(f"{registro[0]} | {registro[1]} | {registro[2]} | {registro[3]}")
             continue
 
-        if opcion == "3":
+        elif opcion == "3":
             print("Muchas gracias por usar Numeric BH :D")
             print("¡Hasta pronto!")
             print("Saliendo del sistema...")
             break
+
+        else:
+            print("Opción no válida. Intente nuevamente.")
+            print()
 
 
 menu_principal()
