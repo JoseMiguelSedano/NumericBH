@@ -1,8 +1,6 @@
 """ Numeric BH: Conversión de bases numéricas: Binario y Hexadecimal """
 
-from conexion import guardar_conversion
-from conexion import obtener_historial
-
+from conexion import guardar_conversion, obtener_historial
 
 # Decimal a Binario
 
@@ -10,22 +8,18 @@ from conexion import obtener_historial
 def decimal_a_binario(num_dec):
     """ Función para la conversión de Decimal a Binario """
     residuos = []
-    cociente = None
-    while True:
-        if cociente != 0:
-            cociente = num_dec // 2
-            print(f"Cociente: {cociente}")
-            residuo = num_dec % 2
-            print(f"Residuo: {residuo}")
-            print()
-            residuos.append(residuo)
-            num_dec = cociente
-        else:
-            resultado = "".join([str(residuo) for residuo in residuos[::-1]])
-            print("Se acabo la conversión")
-            print(f"El resultado es: {resultado}")
-            print()
-            break
+
+    if num_dec == 0:
+        return print("Resultado: 0")
+
+    while num_dec > 0:
+        cociente = num_dec // 2
+        residuo = num_dec % 2
+        residuos.append(residuo)
+        num_dec = cociente
+
+    resultado = "".join([str(residuo) for residuo in residuos[::-1]])
+
     return resultado
 
 # Binario a Decimal
@@ -36,9 +30,7 @@ def binario_a_decimal(num_bin):
     resultado = 0
     for digito in str(num_bin):
         resultado = (resultado * 2) + int(digito)
-        print(f"{resultado}")
-    print("Se acabo la conversión")
-    print(f"El resultado es: {resultado}")
+
     return resultado
 
 # Decimal a Hexadecimal
@@ -48,35 +40,30 @@ def decimal_a_hexadecimal(num_dec):
     """ Función para la conversión de Decimal a Hexadecimal """
     letras = {10: "A", 11: "B", 12: "C", 13: "D", 14: "E", 15: "F"}
     residuos = []
-    cociente = None
 
-    while True:
-        if cociente != 0:
-            cociente = num_dec // 16
-            print(f"Cociente: {cociente}")
-            residuo = num_dec % 16
-            print(f"Residuo: {residuo}")
-            print()
-            if residuo == 10:
-                residuo = letras[10]
-            elif residuo == 11:
-                residuo = letras[11]
-            elif residuo == 12:
-                residuo = letras[12]
-            elif residuo == 13:
-                residuo = letras[13]
-            elif residuo == 14:
-                residuo = letras[14]
-            elif residuo == 15:
-                residuo = letras[15]
-            residuos.append(residuo)
-            num_dec = cociente
-        else:
-            resultado = "".join([str(residuo) for residuo in residuos[::-1]])
-            print("Se acabo la conversión")
-            print(f"El resultado es: {resultado}")
-            print()
-            break
+    if num_dec == 0:
+        return print("Resultado: 0")
+
+    while num_dec > 0:
+        cociente = num_dec // 16
+        residuo = num_dec % 16
+
+        if residuo == 10:
+            residuo = letras[10]
+        elif residuo == 11:
+            residuo = letras[11]
+        elif residuo == 12:
+            residuo = letras[12]
+        elif residuo == 13:
+            residuo = letras[13]
+        elif residuo == 14:
+            residuo = letras[14]
+        elif residuo == 15:
+            residuo = letras[15]
+        residuos.append(residuo)
+        num_dec = cociente
+
+    resultado = "".join([str(residuo) for residuo in residuos[::-1]])
     return resultado
 
 # Hexadecimal a Decimal
@@ -100,9 +87,7 @@ def hexadecimal_a_decimal(num_hexa):
         elif digito == "F":
             digito = letras["F"]
         resultado = (resultado * 16) + int(digito)
-        print(f"{resultado}")
-    print("Se acabo la conversión")
-    print(f"El resultado es: {resultado}")
+
     return resultado
 
 # Menú Principal
@@ -134,25 +119,21 @@ def menu_principal():
                 if tipo_conversion == "1":
                     tipo = "Decimal a Binario"
                     numero = int(input("Ingrese cualquier número de base decimal: "))
-                    print()
                     resultado = decimal_a_binario(numero)
 
                 elif tipo_conversion == "2":
                     tipo = "Binario a Decimal"
                     numero = int(input("Ingrese cualquier número de base binaria: "))
-                    print()
                     resultado = binario_a_decimal(numero)
 
                 elif tipo_conversion == "3":
                     tipo = "Decimal a Hexadecimal"
                     numero = int(input("Ingrese cualquier número de base decimal: "))
-                    print()
                     resultado = decimal_a_hexadecimal(numero)
 
                 elif tipo_conversion == "4":
                     tipo = "Hexadecimal a Decimal"
                     numero = str(input("Ingrese cualquier número de base hexadecimal: "))
-                    print()
                     resultado = hexadecimal_a_decimal(numero)
 
                 elif tipo_conversion == "5":
@@ -162,6 +143,8 @@ def menu_principal():
                 else:
                     print("Opción inválida. Intente nuevamente")
                     continue
+
+                print(f"El resultado es: {resultado}")
 
                 if tipo_conversion in ["1", "2", "3", "4"]:
                     guardar_conversion(tipo, str(numero), str(resultado))
